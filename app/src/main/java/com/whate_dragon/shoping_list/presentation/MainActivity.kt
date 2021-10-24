@@ -1,7 +1,8 @@
-package com.whate_dragon.shoping_list
+package com.whate_dragon.shoping_list.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.whate_dragon.shoping_list.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
