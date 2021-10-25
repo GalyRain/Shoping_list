@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.whate_dragon.shoping_list.R
 import com.whate_dragon.shoping_list.domain.ShopItem
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var llShopList: LinearLayout

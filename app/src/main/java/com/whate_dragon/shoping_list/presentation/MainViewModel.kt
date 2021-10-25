@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.whate_dragon.shoping_list.data.ShopListRepositoryImpl
 import com.whate_dragon.shoping_list.domain.*
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val repository = ShopListRepositoryImpl
 
@@ -19,7 +19,7 @@ class MainViewModel: ViewModel() {
         deleteShopItemUseCase.deleteShopItem(shopItem)
     }
 
-    fun changeEnableState(shopItem: ShopItem){
+    fun changeEnableState(shopItem: ShopItem) {
         val newItem = shopItem.copy(enable = !shopItem.enable)
         editShopItemUseCase.editShopItem(newItem)
     }
