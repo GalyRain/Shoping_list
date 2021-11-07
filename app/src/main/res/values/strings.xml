@@ -3,4 +3,7 @@
     <string name="add_new_shop_item">Add new shop list</string>
     <string name="example">Пример покупок</string>
     <string name="count_example">1</string>
+    <string name="name_hint">Введите имя:</string>
+    <string name="count_hint">Введите количество:</string>
+    <string name="save_button">Сохранить</string>
 </resources>
