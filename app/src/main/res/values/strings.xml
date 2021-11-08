@@ -6,4 +6,6 @@
     <string name="name_hint">Введите имя:</string>
     <string name="count_hint">Введите количество:</string>
     <string name="save_button">Сохранить</string>
+    <string name="error_input_name">Введиете имя!</string>
+    <string name="error_input_count">Введиете количество!</string>
 </resources>
