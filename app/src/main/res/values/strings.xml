@@ -8,4 +8,6 @@
     <string name="save_button">Сохранить</string>
     <string name="error_input_name">Введиете имя!</string>
     <string name="error_input_count">Введиете количество!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
