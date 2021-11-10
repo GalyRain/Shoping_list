@@ -1,7 +1,6 @@
 package com.whate_dragon.shoping_list.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -22,15 +21,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         shopItemContainer = findViewById(R.id.shop_item_container)
         setupRecyclerView()
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
         val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         buttonAddItem.setOnClickListener {
             if (isOnePaneMode()) {
-            val intent = ShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+                val intent = ShopItemActivity.newIntentAddItem(this)
+                startActivity(intent)
             } else {
                 launchFragment(ShopItemFragment.newInstanceAddItem())
             }
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .add(R.id.shop_item_container, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .addToBackStack(null)
             .commit()
     }
@@ -63,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
-
         setupLongClickListener()
         setupClickListener()
         setupSwipeListener(rvShopList)
@@ -100,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
             }
-
         }
     }
 

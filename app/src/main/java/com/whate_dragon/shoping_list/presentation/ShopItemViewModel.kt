@@ -29,20 +29,20 @@ class ShopItemViewModel : ViewModel() {
     val shopItem: LiveData<ShopItem>
         get() = _shopItem
 
-    private val _shoutCloseScreen = MutableLiveData<Unit>()
-    val shoutCloseScreen: LiveData<Unit>
-        get() = _shoutCloseScreen
+    private val _shouldCloseScreen = MutableLiveData<Unit>()
+    val shouldCloseScreen: LiveData<Unit>
+        get() = _shouldCloseScreen
 
-    fun getShopItem(shopItem: Int) {
-        val item = getShopItemUseCase.getShopItem(shopItem)
+    fun getShopItem(shopItemId: Int) {
+        val item = getShopItemUseCase.getShopItem(shopItemId)
         _shopItem.value = item
     }
 
     fun addShopItem(inputName: String?, inputCount: String?) {
-        val name = parsName(inputName)
-        val count = parsCount(inputCount)
-        val fieldValid = validateInput(name, count)
-        if (fieldValid) {
+        val name = parseName(inputName)
+        val count = parseCount(inputCount)
+        val fieldsValid = validateInput(name, count)
+        if (fieldsValid) {
             val shopItem = ShopItem(name, count, true)
             addShopItemUseCase.addShopItem(shopItem)
             finishWork()
@@ -50,23 +50,23 @@ class ShopItemViewModel : ViewModel() {
     }
 
     fun editShopItem(inputName: String?, inputCount: String?) {
-        val name = parsName(inputName)
-        val count = parsCount(inputCount)
-        val fieldValid = validateInput(name, count)
-        if (fieldValid) {
+        val name = parseName(inputName)
+        val count = parseCount(inputCount)
+        val fieldsValid = validateInput(name, count)
+        if (fieldsValid) {
             _shopItem.value?.let {
-                val item = it.copy ()
+                val item = it.copy(name = name, count = count)
                 editShopItemUseCase.editShopItem(item)
                 finishWork()
             }
         }
     }
 
-    private fun parsName(inputName: String?): String {
+    private fun parseName(inputName: String?): String {
         return inputName?.trim() ?: ""
     }
 
-    private fun parsCount(inputCount: String?): Int {
+    private fun parseCount(inputCount: String?): Int {
         return try {
             inputCount?.trim()?.toInt() ?: 0
         } catch (e: Exception) {
@@ -81,8 +81,8 @@ class ShopItemViewModel : ViewModel() {
             result = false
         }
         if (count <= 0) {
-            result = false
             _errorInputCount.value = true
+            result = false
         }
         return result
     }
@@ -96,6 +96,6 @@ class ShopItemViewModel : ViewModel() {
     }
 
     private fun finishWork() {
-        _shoutCloseScreen.value = Unit
+        _shouldCloseScreen.value = Unit
     }
 }

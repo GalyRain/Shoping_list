@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,8 @@ class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
 
-    private lateinit var titName: TextInputLayout
-    private lateinit var titCount: TextInputLayout
+    private lateinit var tilName: TextInputLayout
+    private lateinit var tilCount: TextInputLayout
     private lateinit var etName: EditText
     private lateinit var etCount: EditText
     private lateinit var buttonSave: Button
@@ -31,6 +32,7 @@ class ShopItemFragment : Fragment() {
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("ShopItemFragment", "onCreate")
         super.onCreate(savedInstanceState)
         parseParams()
     }
@@ -48,7 +50,7 @@ class ShopItemFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         initViews(view)
         addTextChangeListeners()
-        launcherRightMode()
+        launchRightMode()
         observeViewModel()
     }
 
@@ -59,7 +61,7 @@ class ShopItemFragment : Fragment() {
             } else {
                 null
             }
-            titCount.error = message
+            tilCount.error = message
         }
         viewModel.errorInputName.observe(viewLifecycleOwner) {
             val message = if (it) {
@@ -67,17 +69,17 @@ class ShopItemFragment : Fragment() {
             } else {
                 null
             }
-            titCount.error = message
+            tilName.error = message
         }
-        viewModel.shoutCloseScreen.observe(viewLifecycleOwner) {
+        viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             activity?.onBackPressed()
         }
     }
 
-    private fun launcherRightMode() {
+    private fun launchRightMode() {
         when (screenMode) {
             MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
+            MODE_ADD  -> launchAddMode()
         }
     }
 
@@ -125,8 +127,8 @@ class ShopItemFragment : Fragment() {
 
     private fun parseParams() {
         val args = requireArguments()
-        if (args.containsKey(SCREEN_MODE)) {
-            throw RuntimeException("Param screen mode absent")
+        if (!args.containsKey(SCREEN_MODE)) {
+            throw RuntimeException("Param screen mode is absent")
         }
         val mode = args.getString(SCREEN_MODE)
         if (mode != MODE_EDIT && mode != MODE_ADD) {
@@ -135,25 +137,26 @@ class ShopItemFragment : Fragment() {
         screenMode = mode
         if (screenMode == MODE_EDIT) {
             if (!args.containsKey(SHOP_ITEM_ID)) {
-                throw RuntimeException("Unknown shop item id is absent")
+                throw RuntimeException("Param shop item id is absent")
             }
             shopItemId = args.getInt(SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
     }
 
     private fun initViews(view: View) {
-        titName = view.findViewById(R.id.til_name)
-        titCount = view.findViewById(R.id.til_count)
+        tilName = view.findViewById(R.id.til_name)
+        tilCount = view.findViewById(R.id.til_count)
         etName = view.findViewById(R.id.et_name)
         etCount = view.findViewById(R.id.et_count)
         buttonSave = view.findViewById(R.id.save_button)
     }
 
     companion object {
-        private const val SCREEN_MODE = "extra_mod"
+
+        private const val SCREEN_MODE = "extra_mode"
         private const val SHOP_ITEM_ID = "extra_shop_item_id"
-        private const val MODE_EDIT = "mod_edit"
-        private const val MODE_ADD = "mod_add"
+        private const val MODE_EDIT = "mode_edit"
+        private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
 
         fun newInstanceAddItem(): ShopItemFragment {
