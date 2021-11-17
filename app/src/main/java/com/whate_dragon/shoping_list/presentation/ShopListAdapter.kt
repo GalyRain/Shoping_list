@@ -54,7 +54,7 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCa
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
-        return if (item.enable) {
+        return if (item.enabled) {
             VIEW_TYPE_ENABLED
         } else {
             VIEW_TYPE_DISABLED
